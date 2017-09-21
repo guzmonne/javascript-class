@@ -63,7 +63,7 @@ Construya 3 funciones utilizando los metodos definidos anteriormente:
 
 Nota: las funciones creadas no tienen porque hacer nada en particular.
 
-###Invocación
+### Invocación
 
 La definición de una función no es suficiente para correr los procedimientos almacenados en la misma. Para esto tenemos que invocarla.
 
@@ -408,7 +408,7 @@ mul(1, 2, 3, 4);
 // >>> 24
 ```
 
-####Ejericios
+#### Ejericios
 
 1. Intente crear aplicaciones similares para la resta y la divisón.
 
@@ -819,7 +819,7 @@ executionTime(fac, 1000);
 
 </details>
 
-##Funciones fundamentales Listas
+## Funciones fundamentales Listas
 
 Tanto los objetos como las listas cuentan con funciones heredadas de sus objetos constructores que son fundamentales para el desarrollo de nuestros sistemas. A continuación veremos algunas de las más utilizadas.
 
@@ -947,7 +947,7 @@ console.log(biggerThan2)
 // >>> [3, 4, 5]
 ```
 
-##Funciones en ECMAScript 2015 en adelante
+## Funciones en ECMAScript 2015 en adelante
 
 ECMAScript 2015 corresponde a la sexta edición del lenguaje desde su publicación 1997. Esta versión presenta una gran cantidad de modificaciones. Con el pasar del tiempo más exploradores lo soportan pero no en su totalidad. Lo mismo con las distintas versiones de NodeJS. Por lo tanto, es importante chequear que el motor de JavaScript donde correra nuestro código, soporta las siguientes modificaciones del lenguaje. Por ejemplo, podemos utilizar [esta página](http://caniuse.com/) como referencia.
 
@@ -1106,7 +1106,7 @@ Además, todas las funciones declaradas heredan propiedades del objeto global `F
 
 A continuación veremos algunas de las propiedades más importantes que hereda una función.
 
-###`Function.prototype.apply`
+### `Function.prototype.apply`
 
 Permite llamar a una función configurando el valor de `this` dentro de la función, y pasandole los argumentos como un `array`.
 
