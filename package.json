@@ -1,0 +1,12 @@
+{
+  "name": "javascript-class",
+  "version": "1.0.0",
+  "description": "Clase de JavaScript para el proyecto de Conapps-IoT",
+  "main": "index.js",
+  "repository": "git@github.com:guzmonne/javascript-class.git",
+  "author": "Guzman Monne <guzmonne@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "live-server": "^1.2.0"
+  }
+}
