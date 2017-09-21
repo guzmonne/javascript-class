@@ -39,7 +39,7 @@ curl https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | bash
 ```
 
 **OBS: Se puede verificar en este [link](https://github.com/creationix/nvm/releases) que estamos instalando la última
-versión.
+versión.**
 
 Cuando finalice la instalación de `nvm` tenemos que reiniciar la consola.
 
