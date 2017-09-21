@@ -1,20 +1,57 @@
 <html>
+  <head>
+    <style>
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        outline: none;
+      }
+
+      body {
+        padding: 5px;
+      }
+
+      body {
+        background: black;
+        color: white;
+      }
+      
+      pre code {
+        font: 11pt/1.25 Monaco, monospace;
+      }
+      
+      .comment { color: #5a5a5a; }
+      .debug { color: Snow; }
+      .info  { color: LawnGreen; }
+      .warn  { color: GoldenRod; }
+      .error { color: LightCoral; }
+    </style>
+  </head>
   <body>
+
     <pre>
-        <script>
-          function log(arg) {
-            var el$ = document.createElement('p');
-              el$.textContent = arg;
-              document.body.appendChild(el$);
-          }
-          function clear() {
-            document.body.innerHTML = '';
-          }
-          log('Abra la consola de desarrollo y utilice la funcion `log` para imprimir en la pagina.');
-          log('Tembién puede usar la función `clear` desde la consola para limpiar la pagina');
-      </script>
-      <script src="javascript/sandbox.js"></script>
+      <code class="info">
+/**
+  * Sandbox
+  * =======
+  *
+  * Escriba su codigo en el archivo `sandbox.js` y utilice las funciones dentro
+  * del objeto `console` para imprimir en la página. Cuando guarde el archivo, 
+  * la página se actualizará automaticamente para reflejar los cambios.
+  *
+  * Las funciones disponibles son:
+  *  `console.log`
+  *  `console.info`
+  *  `console.warn`
+  *  `console.error`
+  *  `console.clear`
+  */
+      </code>
     </pre>
+    
+    <script src="javascript/console.js"></script>
+    <script src="javascript/sandbox.js"></script>
   </body>
 </html>
   
