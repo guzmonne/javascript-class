@@ -918,7 +918,7 @@ var colectionWithDates = colection.map(function(model) {
 });
 ```
 
-###`Array.prototype.filter`
+### `Array.prototype.filter`
 
 La función `filter` toma una función que debe devolver un valor booleano, o que será cohercionado a un booleano, que correra contra todos los elementos de la lista como lo hace `forEach` o `map`. Lo único que cambia es que el resultado de la función `filter` es un nuevo `array` solo con los elementos de la lista original que devuelvan true en la función ingresada como argumento. Claramente es más facil ver el funcionamiento de esta función como un ejemplo.
 
