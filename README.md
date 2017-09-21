@@ -2,7 +2,12 @@
 
 Clase de JavaScript para el proyecto de Conapps-IoT en CONATEL S.A.
 
-## Instalar Sandbox
+## Indice
+
+- <a href="#install">Instalación de Sandbox</a>
+- <a href="#clases">Clases</a>
+
+<h2 id="install">Instalación de Sandbox</h2>
 
 Para poder instalar el sandbox es necesario seguir los siguientes pasos:
 
@@ -92,3 +97,9 @@ comando:
 ```
 yarn serve
 ```
+
+<h2 id="clases">Clases</h2>
+
+- [01 - Funciones](Clases/01_Funciones.md)
+  - Autor: Guzmán Monné
+  - Fecha: 2017/11/27
