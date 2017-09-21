@@ -16,13 +16,20 @@ En esencia, una función es un proceso que toma entradas, llamadas argumentos, y
 
 Todas las funciones en JavaScript son objetos de tipo `Function`, sin importar como haya sido declarada la función. 
 
-Antes de poder llamar a una función debemos definirla. Para esto utilizamos la palabra clave `function`.
+Antes de poder llamar a una función debemos definirla. Para esto utilizamos la palabra clave `function`. La expresión `function` produce una instancia del objeto función.
 
 ```javascript
 function miFuncion (arg1, arg2, arg3){
     // Cuerpo de la función.
 }
 ```
+
+Las funciones en JavaScript son objetos de primer nivel. Esto quiere decir que las funciones pueden:
+
+- Ser pasadas como argumentos a otras funciones.
+- Ser retornadas por una otra función.
+- Ser asignadas a una variable.
+- Ser almacenadas en un objeto o `array`.
 
 En el ejemplo anterior creamos la función `miFuncion` la cual consume tres argumentos: `arg1, arg2, y arg3`. Los argumentos en las funciones son opcionales, tanto en la declaración, como al momento de su invocación. El nombre de la función también es opcional. Cuando las funciones no tienen asociado un nombre, se reconocen como *funciones anonimas*. Las funciones anonimas tienen que ser asociadas a una variable para poder ser invocadas, o pueden definirse dentro de un objeto.
 
@@ -137,6 +144,15 @@ baz(1, 2);
 2. Crear una función que tome al menos 3 argumentos y los devuelva dentro de una lista.
 3. Crear una función que tome al menos 3 argumentos y los devuelva dentro de un objeto.
 4. Crear una cuarta función que tome al menos 3 argumentos y devuelva una función, que al ser llamada, imprima los argumentos en la consola. 
+
+### `this`
+
+Más adelante vamos a volver a repasar el objeto `this` más en profundidad, haciendo énfasis en cuando es conveniente utilizarlo, y cuando es mejor no. Por ahora, vamos a decir simplemente que es un objeto inicializado por el motor de JavaScript al momento de correr las funciones que:
+
+- Contiene una referencia al objeto responsable de la invocación.
+- Permite a una función saber con objeto debe tratar.
+- Es una de las llaves para entender el concepto de `prototypal inheritance`.
+- `this` es asignado al momento de la invocación.
 
 ### Side Effects
 
@@ -395,7 +411,114 @@ mul(1, 2, 3, 4);
 ####Ejericios
 
 1. Intente crear aplicaciones similares para la resta y la divisón.
-2. La función `sum` y la función `mul` son muy similares entre si, siendo la única diferencia la operación que realizan dentro del loop (`for`). Cree una nueva función que tome como argumento una operación, y devuelva una neva función que tome una cantidad indeterminada de argumentos, para aplicarle la operación a cada uno de ellos, y asi devolver el valor calculado o reducido.
+
+### Closures
+
+Otra propiedad muy potente de las funciones en JavaScript es la capacidad de crear funciones que "construyan" otras funciones. A este tipo de funciones se las conoce con el nombre de "Higher Order Functions". Básicamente, son funciones que son llamadas igual que cualquier otra función, y regresan como resultado otra función.
+
+Por ejemplo:
+
+```javascript
+function timesN (n) {
+    return function (x) {
+        return x * n;
+    }
+}
+
+var times2 = timesN(2);
+var times3 = timesN(3);
+
+times2(5);
+// >>> 10
+times3(5);
+// >>> 15
+```
+
+Un punto importante a resaltar es que la función retornada por `timesN` mantiene una referencia a la variable `n` durante toda su vida, y no hay forma de modificar su valor, ya que sol puede ser accedida dentro del scope de la función anonima retornada. No esta demás mencionar que esto es debido a que los argumentos se pasan a las funciones como valor, a menos que esto sean referencias a objetos. A esta propiedad de las funciones se le llama *Closures*. 
+
+Los Closures son creados cuando las funciones o los objetos devueltos por una función deben seguir viviendo, una vez que las funciones "padre" que las crearon hayan terminado su operación. Utilizando closures podemos construir objetos dínamicos con múltiples propiedades y funciones.
+
+```javascript
+var Pet = {};
+
+Pet.create = function (name) {
+    var gender;
+    return {
+        setName: function (newName) {
+			name = newName;
+		},
+      	getName: function () {
+            return name;
+        },
+      	setGender: function (newGender) {
+            if (typeof newGender === 'string' && (
+              newGender.toLowerCase() === 'male' || 				
+              newGender.toLowerCase() === 'female')
+            ) {
+        		gender = newGender;
+      		}
+        },
+      	getGender: function () {
+            return gender;
+        },
+      	toString: function () {
+            return (
+            	'Name: ' + name + '\n' +
+              	'Gender: ' + gender + '\n'
+            )
+        }
+    }
+};
+
+var dog = Pet.create('Maxx');
+var cat = Pet.create('Sam');
+
+dog.setGender('male');
+cat.setGender('female');
+
+console.log(dog.toString());
+// >>> Name: Maxx
+// >>> Gender: male
+console.log(cat.toString());
+// >>> Name: Sam
+// >>> Gender: female
+
+dog.setName('Max');
+console.log(dog.toString());
+// >>> Name: Max
+// >>> Gender: male
+```
+
+Las variables interiores de esta función solo pueden ser accedidas por las funciones que se exponen en el objeto retornado por la función. La información almacenada en estas variables permanecen seguras durante la vida del objeto. 
+
+Resumiendo:
+
+- Las funciones internas solo pueden ser accedidas por funciones externas.
+- Las funciones internas forman un *closure*: pueden usar argumentos y variables definidas en la función externa, mientras que la función exterior no puede usar las variables y argumentos de la función interna.
+
+Un ejemplo más sencillo puede ayudar a clarificar esto.
+
+```javascript
+function sumaN(n) {
+    return function (x) {
+        return n + x;
+    };
+}
+
+var suma2 = sumaN(2);
+var suma3 = sumaN(3);
+
+suma2(1);
+// >>> 3
+suma3(1);
+// >>> 4
+
+suma2(5) === sumaN(2)(5);
+// >>> true
+```
+
+1. Crear un objeto `Car`, que contenga solo una propiedad `create`, la cual puede ser llamada con un objeto con las siguientes propiedades: `brand` y `model`. Esta función deberá devolver un nuevo objeto con funciones para actualizar y leer las propiedades `brand` y `model`.
+2. La función `sum` y la función `mul`, de ejemplos anteriores, son muy similares entre si, siendo la única diferencia la operación que realizan dentro del loop (`for`). Cree una nueva función que tome como argumento una operación, y devuelva una neva función que tome una cantidad indeterminada de argumentos, para aplicarle la operación a cada uno de ellos, y asi devolver el valor calculado o reducido.
 
 ```javascript
 /**
@@ -412,7 +535,7 @@ var sum = reducer(function(acc, x) {return acc + x});
 var mul = reducer(function(acc, x) {return acc * x});
 
 sum(2, 3, 4);
-// >>> 9
+// >>> 10
 mul(2, 3, 4);
 // >>> 24
 ```
@@ -421,10 +544,72 @@ mul(2, 3, 4);
 
 <details>
 
-<summary>How do I dropdown?</summary>
+<summary>Solución</summary>
 
+```javascript
+function reducer(operation) {
+  	return function() {
+      var accumulator = 1;
+      for (var i = 0; i < arguments.length; i++) {
+          var argument = arguments[i];
+          accumulator = operation(accumulator, argument);
+      }
+      return accumulator;   
+    }
+}
 ```
-this is how.
+
+</details>
+
+### Closures + IIFEs
+
+Podemos combinar el poder de los closures junto con el patrón IIFE para construir funciones más eficientes. 
+
+Por ejemplo, un patrón común es utilizar una lista dentro de una función, la cual es utilizada cada vez que la llamamos. El problema es que con cada llamada a la función, debemos recrear la lista. Cuando la lista es pequeña esto no es un problema, pero esto no es siempre el caso. Podemos utilizar un IIFE en esta situación para mejorar su rendimiento.
+
+```javascript
+// Implementación lenta.
+var digit_name = function(n) {
+    var names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+  	return names[n];
+}
+
+// Implementación más eficiente.
+// La lista se crea una única vez al momento de llamar a la función IIFE
+// y luego queda contenida dentro del closure creado al retornar la función.
+var digit_name = (function(){
+    var names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+  	return function(n) {
+    	return names[n];  
+    };
+}());
+```
+
+#### Ejercicios
+
+Cree una función `day_name` que tome un entero y devuelva el nombre del día correspondiente. Utilice una combinación de closures e IIFEs para crear su función.
+
+<details>
+
+<summary>Solución</summary>
+
+```javascript
+// Recuerde que el patrón IIFE también permite invocar inmediatamente 
+// a las funciones pasandoles argumentos, y que los closures también
+// incluyen los argumentos de la función exterior.
+var day_name = (function(names) {
+    return function(n) {
+    	return names[n];  
+    };
+}([
+    'lunes',
+  	'martes',
+  	'miercoles',
+  	'jueves',
+  	'viernes',
+  	'sabado',
+  	'domingo'
+]));
 ```
 
 </details>
@@ -590,109 +775,176 @@ executionTime(fibonacci3, 33);
 
 Gracias a estos cambios nuestra función nuevamente presenta un comportamiento lineal según la notación de Big-O.
 
-### Closures
+#### Ejercicios
 
-Otra propiedad muy potente de las funciones en JavaScript es la capacidad de crear funciones que "construyan" otras funciones. A este tipo de funciones se las conoce con el nombre de "Higher Order Functions". Básicamente, son funciones que son llamadas igual que cualquier otra función, y regresan como resultado otra función.
+Construir una función para calcular el factoria de un producto. Intente hacerlo primero utilizando un loop y luego de forma recursiva.
 
-Por ejemplo:
+<details>
+
+<summary>Solución</summary>
 
 ```javascript
-function timesN (n) {
-    return function (x) {
-        return x * n;
-    }
+// Solución utilizando un `while`.
+function factorial(n) {
+  var result = 1;
+  while (n > 1) {
+    result *= n;
+    n -= 1;
+  }
+  return result;
 }
 
-var times2 = timesN(2);
-var times3 = timesN(3);
-
-times2(5);
-// >>> 10
-times3(5);
-// >>> 15
-```
-
-Un punto importante a resaltar es que la función retornada por `timesN` mantiene una referencia a la variable `n` durante toda su vida, y no hay forma de modificar su valor, ya que sol puede ser accedida dentro del scope de la función anonima retornada. No esta demás mencionar que esto es debido a que los argumentos se pasan a las funciones como valor, a menos que esto sean referencias a objetos. A esta propiedad de las funciones se le llama *Closures*. 
-
-Los Closures son creados cuando las funciones o los objetos devueltos por una función deben seguir viviendo, una vez que las funciones "padre" que las crearon hayan terminado su operación. Utilizando closures podemos construir objetos dínamicos con múltiples propiedades y funciones.
-
-```javascript
-var Pet = {};
-
-Pet.create = function (name) {
-    var gender;
-    return {
-        setName: function (newName) {
-			name = newName;
-		},
-      	getName: function () {
-            return name;
-        },
-      	setGender: function (newGender) {
-            if (typeof newGender === 'string' && (
-              newGender.toLowerCase() === 'male' || 				
-              newGender.toLowerCase() === 'female')
-            ) {
-        		gender = newGender;
-      		}
-        },
-      	getGender: function () {
-            return gender;
-        },
-      	toString: function () {
-            return (
-            	'Name: ' + name + '\n' +
-              	'Gender: ' + gender + '\n'
-            )
-        }
-    }
-};
-
-var dog = Pet.create('Maxx');
-var cat = Pet.create('Sam');
-
-dog.setGender('male');
-cat.setGender('female');
-
-console.log(dog.toString());
-// >>> Name: Maxx
-// >>> Gender: male
-console.log(cat.toString());
-// >>> Name: Sam
-// >>> Gender: female
-
-dog.setName('Max');
-console.log(dog.toString());
-// >>> Name: Max
-// >>> Gender: male
-```
-
-Las variables interiores de esta función solo pueden ser accedidas por las funciones que se exponen en el objeto retornado por la función. La información almacenada en estas variables permanecen seguras durante la vida del objeto. 
-
-Resumiendo:
-
-- Las funciones internas solo pueden ser accedidas por funciones externas.
-- Las funciones internas forman un *closure*: pueden usar argumentos y variables definidas en la función externa, mientras que la función exterior no puede usar las variables y argumentos de la función interna.
-
-Un ejemplo más sencillo puede ayudar a clarificar esto.
-
-```javascript
-function sumaN(n) {
-    return function (x) {
-        return n + x;
-    };
+// Solución recursiva.
+function fac(n) {
+  if (n <= 1) {
+    return 1;
+  }
+  return n * fac(n - 1);
 }
 
-var suma2 = sumaN(2);
-var suma3 = sumaN(3);
+// Función de prueba de performance.
+function executionTime(fn) {
+    var start, end, total;
+  	start = performance.now();
+  	fn.apply(null, [].slice.call(arguments, 1));
+  	end = performance.now();
+  	total = (end - start);
+  	console.log('Tiempo de ejecución:', total, 'ms.');
+}
 
-suma2(1);
-// >>> 3
-suma3(1);
-// >>> 4
+// Test de todas las funciones.
+executionTime(factorial, 1000);
+executionTime(fac, 1000);
+```
 
-suma2(5) === sumaN(2)(5);
-// >>> true
+</details>
+
+##Funciones fundamentales Listas
+
+Tanto los objetos como las listas cuentan con funciones heredadas de sus objetos constructores que son fundamentales para el desarrollo de nuestros sistemas. A continuación veremos algunas de las más utilizadas.
+
+### `Array.prototype.forEach`
+
+Esta función es particularmente útil cuando queremos iterar sobre los elementos de una lista. Hasta ahora vimos como podíamos hacer esto utilizando un `for-loop`, pero esta función nos permite hacer los mismo de forma más elegante.
+
+`forEach` espera recibir como argumento una función, que correra tantas veces como elementos tengamos en nuestra lista. Además, llamara en cada oportunidad a esta función, pasandoles 3 argumentos: el elemento de la lista, el indice de dicho elemento en la lista, y una referencia a la lista en si. Osea:
+
+```javascript
+/**
+  *	`forEach`
+  * @param {function} fn Función que se correra para cada elemento de la 
+  *	lista.
+  *	@returns {}
+  *	fn -> undefined
+  *
+  *	`fn`
+  * @param {any} x Elemento de la lista.
+  * @param {number} i Indice del elemento en la lista.
+  * @param {array} list Lista con la cual se esta iterando.
+  * @returns {}
+  * (x -> i -> list) -> undefined
+  */
+var lista = [1, 2, 3, 4, 5];
+
+lista.forEach(function(x, i){ console.log(i, x); });
+```
+
+### `Array.prototype.map`
+
+El comportamiento de `map` es muy similar al de `forEach`, con la diferencia que retorna un nuevo `array`, sin modificar el `array` original.
+
+```javascript
+/**
+  *	`forEach`
+  * @param {function} fn Función que se correra para cada elemento de la
+  *	lista.
+  *	@returns {array}
+  *	function -> array
+  *
+  *	`fn`
+  * @param {any} x Elemento de la lista.
+  * @param {number} i Indice del elemento en la lista.
+  * @param {array} list Lista con la cual se esta iterando.
+  * @returns {any}
+  * (any -> number -> array) -> any
+  */
+var lista = [1, 2, 3, 4, 5];
+
+var double = lista.map(function(x){ return x * 2 });
+// >>> [2, 4, 6, 8, 10]
+```
+
+La función `map` es particularmente útil cuando tenemos una lista de objetos, de los cuales queremos: extraer una única propiedad, transformarlos, o agregarles información.
+
+```javascript
+var colection = [{
+    id: 1,
+  	name: 'Bob'
+  	admin: true,
+}, {
+    id: 2,
+  	name: 'Jane',
+  	admin: false,
+}, {
+    id: 3,
+  	name: 'John',
+  	admin: false,
+}];
+
+// Extraemos solo las id.
+var ids = colection.map(function(model) { return model.id; });
+
+// Creamos una nueva lista con elementos sin el campo `admin` y con un
+// nuevo campo llamado `role`.
+var colectionWithRoles = colection.map(function(model) {
+   return {
+   	id: model.id,
+    name: model.name,
+    role: model.admin === true ? 'admin' : 'user', 
+   }; 
+});
+
+// Creamos una nueva lista donde le agregamos a los elementos existentes
+// una nueva propiedad llamada `date`.
+var colectionWithDates = colection.map(function(model) {
+   return {
+     id: model.id,
+     name: model.name,
+     admin: model.admin,
+     date: Date.now(),
+   };
+});
+```
+
+###`Array.prototype.filter`
+
+La función `filter` toma una función que debe devolver un valor booleano, o que será cohercionado a un booleano, que correra contra todos los elementos de la lista como lo hace `forEach` o `map`. Lo único que cambia es que el resultado de la función `filter` es un nuevo `array` solo con los elementos de la lista original que devuelvan true en la función ingresada como argumento. Claramente es más facil ver el funcionamiento de esta función como un ejemplo.
+
+```javascript
+/**
+  *	`filter`
+  * @param {function} fn Función que se correra para cada elemento de la
+  *	lista.
+  *	@returns {array}
+  *	function -> array
+  *
+  *	`fn`
+  * @param {any} x Elemento de la lista.
+  * @param {number} i Indice del elemento en la lista.
+  * @param {array} list Lista con la cual se esta iterando.
+  * @returns {boolean}
+  * (any -> number -> array) -> boolean
+  */
+var lista = [true, false, false, false];
+var numbers = [1, 2, 3, 4, 5];
+
+var defined = lista.filter(function(x){ return x;});
+console.log(defined);
+// >>> [true]
+
+var biggerThan2 = numbers.filter(function(x) {return x > 2;});
+console.log(biggerThan2)
+// >>> [3, 4, 5]
 ```
 
 ##Funciones en ECMAScript 2015 en adelante
@@ -959,20 +1211,3 @@ console.log(language.current);
 console.log(language.log);
 // >>> ['EN', 'ES']
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
