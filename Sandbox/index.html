@@ -1,0 +1,20 @@
+<html>
+  <body>
+    <pre>
+        <script>
+          function log(arg) {
+            var el$ = document.createElement('p');
+              el$.textContent = arg;
+              document.body.appendChild(el$);
+          }
+          function clear() {
+            document.body.innerHTML = '';
+          }
+          log('Abra la consola de desarrollo y utilice la funcion `log` para imprimir en la pagina.');
+          log('Tembién puede usar la función `clear` desde la consola para limpiar la pagina');
+      </script>
+      <script src="javascript/sandbox.js"></script>
+    </pre>
+  </body>
+</html>
+  
