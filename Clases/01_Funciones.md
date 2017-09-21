@@ -779,7 +779,7 @@ Gracias a estos cambios nuestra función nuevamente presenta un comportamiento l
 
 #### Ejercicios
 
-Construir una función para calcular el factoria de un producto. Intente hacerlo primero utilizando un loop y luego de forma recursiva.
+Construir una función para calcular el factorial de un producto. Intente hacerlo primero utilizando un loop y luego de forma recursiva.
 
 <details>
 
