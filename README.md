@@ -77,7 +77,7 @@ Si se encuentran problemas al finalizar la instalación, prueben si el comando:
 Para descargar el repositorio en sus maquinas ejecuten el siguiente comando:
 
 ```
-git clone git@github.com:guzmonne/javascript-class.git
+git clone https://github.com/guzmonne/javascript-class.git
 ```
 
 ### `yarn install`

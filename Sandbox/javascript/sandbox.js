@@ -4,7 +4,7 @@ console.info('Info');
 console.warn('Warn');
 console.error('Error');
 
-/*
+
 var info = setInterval(() => console.info('CONATEL S.A.'), 100);
 var warn = setInterval(() => console.warn('CONATEL S.A.'), 200);
 var comment = setInterval(() => console.comment('CONATEL S.A.'), 300);
@@ -20,4 +20,6 @@ setTimeout(() =>  {
   console.log(4 + 4);
   console.log('\nDone\n')
 }, 5000);
-*/
+
+
+console.log('Hola!')
