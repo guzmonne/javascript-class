@@ -517,6 +517,8 @@ suma2(5) === sumaN(2)(5);
 // >>> true
 ```
 
+#### Ejercicios
+
 1. Crear un objeto `Car`, que contenga solo una propiedad `create`, la cual puede ser llamada con un objeto con las siguientes propiedades: `brand` y `model`. Esta función deberá devolver un nuevo objeto con funciones para actualizar y leer las propiedades `brand` y `model`.
 2. La función `sum` y la función `mul`, de ejemplos anteriores, son muy similares entre si, siendo la única diferencia la operación que realizan dentro del loop (`for`). Cree una nueva función que tome como argumento una operación, y devuelva una neva función que tome una cantidad indeterminada de argumentos, para aplicarle la operación a cada uno de ellos, y asi devolver el valor calculado o reducido.
 
