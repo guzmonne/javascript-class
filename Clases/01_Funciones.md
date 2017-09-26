@@ -333,6 +333,54 @@ var a = 1;
 
 En el ejemplo, en vez de acceder directamente a la variable `a` definida en el contexto global, le pasamos el valor de la misma a la función `IIFE` al momento de invocarla. Además de dejar de forma explicita la variable que estamos utilizadas dentro de la función, tenemos la posibilida de cambiar su nombre a algo que tenga más sentido dentro del contexto de la función. En el ejemplo, asociamos el valor de la variable `a` a una nueva variable llamada `entero` definida como un argumento de la funicón `IIFE`.
 
+### Repaso
+
+```javascript
+var foo = "bar";
+
+function bar() {
+  // Shadowing.
+  console.log(foo);
+  // >>> ¿?
+  var foo = "baz";
+}
+
+bar();
+// >>> ¿?
+
+function baz(foo) {
+  foo = "bam";
+  bam = "yay";
+  return {};
+}
+
+(function IIFE(a, b, c, bar) {
+  var foo = 'foo2'
+  console.log(a, b, c);
+  // >>> ¿?
+  console.log(bar);
+  // >>> ¿?
+})(1, 2, 3, foo);
+
+
+var foos = function bat() {
+  function nas() {
+    var foos = foo = bat
+  }
+  console.log(bat);
+  // >>> ¿?
+};
+console.log(bar);
+
+function bin() {
+  return bos();
+  // ---
+  function bos() {
+    // ...
+  }
+}
+```
+
 ### Argumentos indefinidos
 
 Anteriormente mencionamos que podemos utilizar el objeto `arguments` dentro de una función para acceder a los argumentos pasados al momento de que la función fue invocada, independientemente de si estos fuerón definidos al momento de crear la función.
@@ -414,6 +462,9 @@ mul(1, 2, 3, 4);
 
 ### Closures
 
+> Closure is when a function "remembers" its lexical scope even when the function is executed outside that lexical scope.
+> *Kyle Simpson*
+
 Otra propiedad muy potente de las funciones en JavaScript es la capacidad de crear funciones que "construyan" otras funciones. A este tipo de funciones se las conoce con el nombre de "Higher Order Functions". Básicamente, son funciones que son llamadas igual que cualquier otra función, y regresan como resultado otra función.
 
 Por ejemplo:
@@ -436,7 +487,80 @@ times3(5);
 
 Un punto importante a resaltar es que la función retornada por `timesN` mantiene una referencia a la variable `n` durante toda su vida, y no hay forma de modificar su valor, ya que sol puede ser accedida dentro del scope de la función anonima retornada. No esta demás mencionar que esto es debido a que los argumentos se pasan a las funciones como valor, a menos que esto sean referencias a objetos. A esta propiedad de las funciones se le llama *Closures*. 
 
+#### Ejercicio
+
+1. Intentar determinar que será impreso en la pantalla despues de 6 segundos.
+1. Correr el codigo en la consola y verificar si se cumple con lo esperado.
+1. Intente escribir un set de instrucciones dentro del `for` loop para que cada segundo se imprima un valor distinto de `i`, sin utilizar níngun operador.
+
+```javascript
+for (var i = 1; i <= 5; i++) {
+  setTimeout(function() {
+    console.log('i:', i);
+  }, i * 1000);
+}
+// >>> ¿?
+```
+
+<details>
+
+<summary>Solución</summary>
+
+```javascript
+// IIFE. Cada función crea un nuevo Scope.
+for (var i = 1; i <= 5; i++) {
+  (function(i) {
+    setTimeout(function() {
+      console.log('i:', i);
+    }, i * 1000);
+  })(i);
+}
+// Otra posibilidad es utilizar `let` para declarar la variable.
+for (let i = 1; i <= 5; i++) {
+  setTimeout(function() {
+    console.log('i:', i);
+  }, i * 1000);
+}
+```
+
+</details>
+
 Los Closures son creados cuando las funciones o los objetos devueltos por una función deben seguir viviendo, una vez que las funciones "padre" que las crearon hayan terminado su operación. Utilizando closures podemos construir objetos dínamicos con múltiples propiedades y funciones.
+
+### Module Pattern
+
+Podemos encapsular un montón de información utilizando un objeto. El mismo puede contener distintas propiedades junto con sus valores, y funciones que pueden referenciar propiedades del mismo objeto. Sin embargo, no podemos "ocultar" o limitar el acceso a estas propiedades, ni construir patrones más complejos. 
+
+```javascript
+var foo = {
+  o: {bar: "bar"},
+  bar: function() {
+    console.log(this.o.bar);
+  }
+};
+
+foo.bar();
+```
+
+Podemos combinar las propiedades de las funciones que mencionamos anteriormente: `scopes` y `clojures`, para realmente conseguir el nivel de encapsulamiento que queremos.
+
+```javascript
+var foo = (function(){
+  var o = {bar: "bar"};
+
+  return {
+    bar: function() {
+      console.log(o.bar);
+    }
+  };
+})();
+
+foo.bar();
+```
+
+Lo único "visible" para el resto del programa es el objeto que devuelve el IIFE. Esta patrón usualmente se reconoce como un "Singleton". Porque la función que crea el objeto solo corre una vez.
+
+No es necesario utilizar un IIFE para construir estos objetos. Por ejemplo, otro patrón muy común es el de crear un objeto "madre" que cuenta con funciones para crear objetos "hijos". Este patrón se conoce como "Factory" porque puede crear múltiples objetos.
 
 ```javascript
 var Pet = {};
