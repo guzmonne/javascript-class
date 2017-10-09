@@ -86,6 +86,7 @@ function foo() {
 
 <details>
 <summary>Solución</summary>
+
 ```javascript
 function foos() {
     if (true) {
@@ -97,6 +98,7 @@ function foos() {
     }
 }
 ```
+
 </details>
 
 ### Scope Nesting
@@ -176,7 +178,9 @@ Construya una función que declare los siguientes scopes.
 ```
 
 <details>
+
 <summary>Solución</summary>
+
 ```javascript
 function foo() {
     function foos() {}
@@ -187,6 +191,7 @@ function foo() {
     }
 }
 ```
+
 </details>
 
 ## Closures
@@ -247,7 +252,9 @@ counter();
 ```
 
 <details>
+
 <summary>Solución</summary>
+
 ```javascript
 function createCounterFrom(initial) {
     return function() {
@@ -255,6 +262,7 @@ function createCounterFrom(initial) {
     };
 }
 ```
+
 </details>
 
 ## Problemas
@@ -299,7 +307,9 @@ console.log(cesar.decipher(cipheredMessage));
 - `alphabet`: Corresponde al alfabeto a utilizar, el será de tipo string. Por ejemplo: `"abcdefghijklmnñopqrstuvwxyz "`.
 
 <details>
+
 <summary>Solución</summary>
+
 ```javascript
 /**
  * Crea un objeto que permite cifar y decifrar mensajes de texto utilizando
@@ -408,4 +418,5 @@ console.log(cipheredMessage);
 console.log(cesar.decipher(cipheredMessage));
 // >>> *onatel **** *o*
 ```
+
 </details>
