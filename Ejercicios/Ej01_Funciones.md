@@ -344,7 +344,7 @@ var limit = (binary, count) => (x, y) => {
 
 ## 14.
 
-Escribir una función `from` que retorne un generador que produce una serie de valores a partir del valor de inicio.
+Escribir una función `from` que retorne un **generador** que produce una serie de valores a partir del valor de inicio.
 
 ```javascript
 var index = from(0);
@@ -398,14 +398,14 @@ function to(generator, end) {
 }
 
 // Podemos re-utilizar la función `limit`
-var to = (generator, end) => limit(generator, end - 1);
+var to = (generator, end) => limit(generator, end);
 ```
 
 </details>
 
 ## 16.
 
-Escriba una función `fromTo` que produsca un generado que produsca valores dentro del rango especificado.
+Escriba una función `fromTo` que retorne un generador que produzca valores dentro del rango especificado.
 
 ```javascript
 var index = fromTo(0, 3);
@@ -530,7 +530,7 @@ function collect(generator, array) {
 
 ## 20.
 
-Escriba una función llamada `filter` que tome un generador y una función (muchas veces nombrada "predicate function") que produsca un generador que devuelva solo los valores aprovados por la función predicado.
+Escriba una función llamada `filter` que tome un generador y una función (muchas veces nombrada "predicate function") que produzca un generador que devuelva solo los valores aprovados por la función predicado.
 
 ```javascript
 var fil = filter(fromTo(0, 5), (x) => x % 3 === 0);
@@ -562,7 +562,7 @@ var filter = (generator, predicate) => {
 
 ## 21.
 
-Escribir una función llamada `concat` que tome dos generadores y produsca un generador que combine ambas secuencias.
+Escribir una función llamada `concat` que tome dos generadores y produzca un generador que combine ambas secuencias.
 
 ```javascript
 var con = concat(fromTo(0, 3), fromTo(0, 2));

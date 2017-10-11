@@ -7,9 +7,19 @@
   "author": "Guzman Monne <guzmonne@hotmail.com>",
   "license": "MIT",
   "dependencies": {
-    "live-server": "^1.2.0"
+    "babel-core": "^6.26.0",
+    "babel-jest": "^21.2.0",
+    "babel-preset-env": "^1.6.0",
+    "jest": "^21.2.1",
+    "live-server": "^1.2.0",
+    "lodash": "^4.17.4",
+    "regenerator-runtime": "^0.11.0"
   },
   "scripts": {
-    "serve": "node server.js"
+    "serve": "node server.js",
+    "test:01": "jest ./Sandbox/tests/Ej01_Funciones.spec.js --watch",
+    "test:02": "jest ./Sandbox/tests/Ej02_Practico_de_Funciones.spec.js --watch",
+    "test:01:sol": "jest ./Sandbox/tests/Ej01_Funciones.sol.spec.js --watch",
+    "test:02:sol": "jest ./Sandbox/tests/Ej02_Practico_de_Funciones.sol.spec.js --watch"
   }
 }
